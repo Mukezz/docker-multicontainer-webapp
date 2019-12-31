@@ -15,7 +15,7 @@ after_success:
     - docker build -t kvmukesh/multi-client ./client
     - docker build -t kvmukesh/multi-nginx ./nginx
     - docker build -t kvmukesh/multi-server ./server
-    - docker build -t kvmukesh/multi-worker ./server
+    - docker build -t kvmukesh/multi-worker ./worker
 
     # Login into docker hub repository and publish all the images into it
 
