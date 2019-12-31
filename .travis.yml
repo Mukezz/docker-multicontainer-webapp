@@ -1,0 +1,26 @@
+sudo: required
+
+services:
+    - docker
+
+before_install:
+    - docker build -t kvmukesh/reactapp-test -f ./client/Dockerfile.dev
+
+
+script:
+    - docker run -e CI=true kvmukesh/reactapp-test npm test 
+
+
+after_success:
+    - docker build -t kvmukesh/multi-client ./client
+    - docker build -t kvmukesh/multi-nginx ./nginx
+    - docker build -t kvmukesh/multi-server ./server
+    - docker build -t kvmukesh/multi-worker ./server
+
+    # Login into docker hub repository and publish all the images into it
+
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+    - docker push kvmukesh/multi-client
+    - docker push kvmukesh/multi-nginx
+    - docker push kvmukesh/multi-server
+    - docker push kvmukesh/multi-worker
