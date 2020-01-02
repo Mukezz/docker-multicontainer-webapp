@@ -24,3 +24,17 @@ after_success:
     - docker push kvmukesh/multi-nginx
     - docker push kvmukesh/multi-server
     - docker push kvmukesh/multi-worker
+
+deploy:
+    provider: elasticbeanstalk
+    region: us-east-1
+    app: multi-container-webapp
+    env: MultiContainerWebapp-env
+    bucket_name: elasticbeanstalk-us-east-1-814423982579
+    bucket_path: multi-container-webapp
+    
+    on:
+        branch: master
+    access_key_id: $AWS_ACCESS_ID
+    secret_acess_key:
+        secure: $AWS_SECRET_ID
